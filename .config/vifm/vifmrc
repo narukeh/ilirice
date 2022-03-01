@@ -1,0 +1,132 @@
+" vim:set ts=4 sw=4:
+" vim: filetype=vim:
+source ${XDG_CONFIG_HOME:-$HOME/.config}/vifm/vifmshortcuts
+
+set vicmd=$EDITOR
+set syscalls
+set nofollowlinks
+set sortnumbers
+set undolevels=100
+set wildmenu
+set wildstyle=popup
+set scrolloff=4
+set ignorecase
+set smartcase
+set nohlsearch
+set incsearch
+set suggestoptions=normal,visual,view,otherpane,keys,marks,registers
+" colorscheme luke
+colorscheme gruvbox_local
+
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+map <C-o> <C-w>o
+map <C-s> <C-w>s
+map <C-v> <C-w>v
+
+map R :restart<CR>
+map x :!sxiv -ft * 2>/dev/null &<CR>
+nnoremap o :file &<cr>
+map E :!$EDITOR %f<CR>
+map mkd :mkdir<space>
+map bg :!setsid -f setbg %f &<CR>
+map bs :!setsid -f setbg-slide %f &<CR>
+map mm :!setsid -f dragon-drag-and-drop -a -x %f <CR>
+map ms :!setsid -f dragon-drag-and-drop -a %f <CR>
+map mi :!setsid -f dragon-drag-and-drop %f <CR>
+map X :!ext %f &<CR>
+nnoremap s :shell<cr>
+nnoremap w :view<cr>
+vnoremap w :view<cr>gv
+nnoremap yd :!echo %d | xclip %i<cr>
+nnoremap yf :!echo %c:p | xclip %i<cr>
+nnoremap I cw<c-a>
+nnoremap cc cw<c-u>
+nnoremap A cw
+nnoremap ,w :set wrap!<cr>
+nmap <space> tj
+nmap q ZQ
+
+"" idk, some day it just stopped working
+" fileview */ tree %c -Ca -L 1 --dirsfirst
+" fileview ../ tree %c -Ca -L 1 --dirsfirst
+fileview */ realpath %c && ls -AF1 --color=always --group-directories-first %c/
+fileview ../ realpath %c && ls -AF1 --color=always --group-directories-first %c/
+
+"" idk, some day it just stopped working
+" fileviewer *.md md2html %c -o /tmp/vifm_md.html && w3m -dump -cols $((($COLUMNS/2)-3)) /tmp/vifm_md.html
+" fileviewer *.html w3m -dump -cols $((($COLUMNS/2)-3)) %c
+fileviewer *.html w3m -dump
+filextype *.html,*.htm firefox %f 2>/dev/null &
+
+fileviewer *.docx docx2txt %c -
+fileviewer *.odt odt2txt %c -
+
+filetype *.csv,*.xlsx sc-im %c
+fileviewer *.csv sed "s/,,,,/,,-,,/g;s/,,/ /g" %c | column -t | sed "s/ - /  /g" | cut -c -%pw
+
+filextype *.pdf,*.ps,*.eps,*.ps.gz,*.djvu,*.epub,*.cbz,*.cbr,*.cb7 setsid -f zathura %f 2>/dev/null &,
+" fileviewer *.pdf pdftotext -l 1 -nopgbrk %c -
+
+filetype *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus mpv --no-audio-display %c
+" fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.qt,*.divx,*.as[fx],*mp3,*.flac file
+filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,*.as[fx] setsid -f mpv %f >/dev/null 2>&1
+
+fileview *.tar			bsdtar -tf %f
+fileview *.tar.xz		bsdtar -tf %f
+fileview *.tar.gz		bsdtar -tf %f
+fileview *.tar.zst		bsdtar -tf %f
+fileview *.zip,*.cbz	bsdtar -tf %f
+fileview *.rar,*.cbr	bsdtar -tf %f
+fileview *.7z,*.cb7		bsdtar -tf %f
+filetype *.zip,*.7z,*.rar,*.tar.gz,*.tar.xz ext %f
+
+fileviewer *.[1-8] man ./%c | col -b
+filetype *.[1-8] man ./%c
+
+fileviewer *.pka,*.pkt file %c
+filetype *.pka,*.pkt setsid -f packettracer %c:p
+
+" fileviewer *.jpg,*.jpeg,*.png,*.ico,*.gif vifmimg draw %px %py %pw %ph %c %pc vifmimg clear
+filextype *.bmp,*.jpg,*.jpeg,*.png,*.ico,*.gif,*.xpm  rotdir %f 2>/dev/null | setsid -f sxiv -ia 2>/dev/null
+
+filextype *.svg inkscape %f 2>/dev/null &
+filextype *.xcf gimp %f 2>/dev/null &
+
+fileviewer <text/*> highlight --replace-tabs=2 --out-format=ansi --style=pablo --force
+
+fileviewer *.pdf
+	\ vifmimg pdf %px %py %pw %ph %c
+	\ %pc
+	\ vifmimg clear
+
+fileviewer *.epub
+	\ vifmimg epub %px %py %pw %ph %c
+	\ %pc
+	\ vifmimg clear
+
+fileviewer <video/*> mediainfo
+" fileviewer <video/*>
+" 	\ vifmimg video %px %py %pw %ph %c
+" 	\ %pc
+" 	\ vifmimg clear
+
+fileviewer <image/*>
+	\ vifmimg draw %px %py %pw %ph %c
+	\ %pc
+	\ vifmimg clear
+
+fileviewer <audio/*> mediainfo
+" fileviewer <audio/*>
+" 	\ vifmimg audio %px %py %pw %ph %c
+" 	\ %pc
+" 	\ vifmimg clear
+
+fileviewer *.ttf,*.otf,*.woff
+	\ vifmimg font %px %py %pw %ph %c
+	\ %pc
+	\ vifmimg clear
+
+set vifminfo=dhistory,chistory,tui,shistory,phistory,fhistory,dirstack,registers,bookmarks,bmarks

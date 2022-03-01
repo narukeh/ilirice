@@ -1,0 +1,69 @@
+#!/bin/sh
+#As long as this line exist, this script is not working how it should. i think its cursed.
+
+ORIG=$PATH
+TOYBOX='/opt/toybox/usr/sbin:/opt/toybox/usr/bin:/opt/toybox/sbin:/opt/toybox/bin:'
+BUSYBOX='/opt/busybox/bin:/opt/busybox/sbin:/opt/busybox/usr/bin:/opt/busybox/usr/sbin:'
+foo=''
+
+toyland() {
+	test -e /bin/toybox ||
+		{ printf "No /bin/toybox or toybox binary in path found.
+Install toybox to run ${0}.%s\\n" "$foo" && exit 1 ;}
+	rm -rf /opt/toybox
+	mkdir -p /opt/toybox/bin /opt/toybox/sbin /opt/toybox/usr/bin /opt/toybox/usr/sbin
+	for i in $(/bin/toybox --long); do ln -s /bin/toybox "/opt/toybox/${i}"; done
+}
+
+busyland() {
+	test -e /bin/toybox || \
+		{ printf "No /bin/buybox or busybox binary in path found.
+Install busybox to run ${0}.%s\\n" "$foo" && exit 1 ;}
+	rm -rf /opt/busybox
+	mkdir -p /opt/busybox/bin /opt/busybox/sbin /opt/busybox/usr/bin /opt/busybox/usr/sbin
+	for i in $(/bin/busybox --list-full); do ln -s /bin/busybox "/opt/busybox/${i}"; done
+}
+
+checkland() {
+	test -d /opt/busybox || test -d /opt/toybox
+}
+
+noland() {
+	printf "You must have either '/opt/toybox' or '/opt/busybox'
+Install ToyLand: 'boxland -i toybox'
+Install BusyLand: 'boxland -i busybox'\\n"
+}
+
+usage() {
+	printf "With no flags given, only changes your \$PATH variable\\n
+Optional arguments for custom use:
+	-d: Disable BoxLand, restore regular \$PATH
+	-e: Enable BoxLand, prefix \$PATH with *box paths
+	-i: [toybox|busybox]: Install a boxland.
+	-s: change shell to busybox's ash
+	-h: Show this message\\n\\n"
+	noland
+}
+
+enableland() {
+	checkland && export PATH="$TOYBOX$BUSYBOX$ORIG" || { printf "No BoxLand is installed" && noland && false;}
+}
+
+plan9() {
+#This function is not finished
+printf "No /opt/plan9/ directory found
+Please install 9base fom your package manager\\n" && exit 1
+	test -d /opt/plan9 || msg
+}
+
+while getopts ":i:hdes9" o; do case "${o}" in
+	h) usage && exit 0 ;;
+	d) export ORIG ;;
+	# e) { checkland && export PATH="$TOYBOX$BUSYBOX$ORIG" ;} || { printf "No BoxLand is installed" && noland ;} ;;
+	e) enaleland ;;
+	i) { test "$OPTARG" = "toybox" && toyland ;} ||
+		 { test "$OPTARG" = "busybox" && busyland ;} ;;
+	s) enableland && export PATH && test -e /opt/busybox/bin/ash && sudo su "$USER" -s /opt/busybox/bin/ash -l ;;
+	9) plan9 ;;
+	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
+esac done

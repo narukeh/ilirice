@@ -1,0 +1,25 @@
+#!/bin/sh
+
+# sed -i '4i\'"<style type="text/css" media="screen">\nblockquote {\n  <\!-- font: 14px/22px normal , serif; -->\n  <\!-- color: #6A737D; -->\n  margin-top: 10px;\n  margin-bottom: 10px;\n  margin-left: 50px;\n  padding-left: 15px;\n  border-left: 4px solid #DFE2E5;\n}\ntable, th, td {\n  border: 1px solid black;\n  border-collapse: collapse;\n  overflow: auto;\n  padding: 2px 5px;\n</style>" "$1"
+
+one="$1"
+
+con() {
+ping -q -c 1 example.org >/dev/null 2>&1
+}
+
+dnl() {
+[ -f /tmp/sp-dark.css ] || curl -s -L 'hekuran.ga/cssjs/sp-dark.css' -o /tmp/sp-dark.css &
+}
+
+web() {
+sed -i "s_</head>_<link rel="stylesheet" href="/tmp/sp-dark.css" type="text/css">\n </head>_g" "$one"
+sed -i "s_</head>_<link rel="stylesheet" href="https://hekuran.ga/cssjs/sp-dark.css" type="text/css">\n </head>_g" "$one"
+sed -i "s_</head>_<link rel="stylesheet" href="/home/${USER}/dokumente/src/web/narukeh.github.io/cssjs/sp-dark.css" type="text/css">\n </head>_g" "$one"
+}
+
+style() {
+sed -i "s_</head>_<style type="text/css" media="screen">\nblockquote {\n  <\!-- font: 14px/22px normal , serif; -->\n  <\!-- color: #6A737D; -->\n  margin-top: 10px;\n  margin-bottom: 10px;\n  margin-left: 50px;\n  padding-left: 15px;\n  border-left: 4px solid #DFE2E5;\n}\ntable, th, td {\n  border: 1px solid black;\n  border-collapse: collapse;\n  overflow: auto;\n  padding: 2px 5px;\n</style>\n </head>_g" "$one"
+}
+
+{ con && dnl && web ;} || { style && web ;}

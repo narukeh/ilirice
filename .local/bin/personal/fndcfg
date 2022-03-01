@@ -1,0 +1,3 @@
+#!/bin/sh
+find "$XDG_CONFIG_HOME" | grep -i "$@"
+find "$XDG_DATA_HOME" | grep -i "$@"

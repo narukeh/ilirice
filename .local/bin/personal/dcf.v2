@@ -1,0 +1,48 @@
+#!/bin/sh
+
+usage() {
+	echo '
+	-p: pacman
+	-P: pacman on non-binary file
+	-f: file
+	-c: cat
+	-b: bat
+	-v: nvim
+	-h: head
+	-t: tail
+	-l: less
+	-L: "ls -lA"
+	-r: realpath
+	'
+}
+one="$1" ; two="$2" ; three="$3"
+test -z "$two" && /bin/which $one && exit
+_at="$(echo "$@")"
+shift 2
+
+p() { pacman "${@:--Qo}" $( which "$two" ) ; }
+P() { pacman "${@:--Qo}" "$two" ; }
+f() { file "$@" $( /bin/which "$two" ) ; }
+c() { cat  "$@" $( /bin/which "$two" ) ; }
+b() { bat  "$@" $( /bin/which "$two" ) ; }
+v() { nvim "$@" $( /bin/which "$two" ) ; }
+h() { head "$@" $( /bin/which "$two" ) ; }
+t() { tail "$@" $( /bin/which "$two" ) ; }
+l() { less "$@" $( /bin/which "$two" ) ; }
+L() { ls -lA "$@" $( /bin/which "$two" ) ; }
+r() { realpath "$@" $( /bin/which "$two" ) ; }
+
+case "$one" in
+	p) p ;;
+	P) P ;;
+	f) f ;;
+	c) c ;;
+	b) b ;;
+	v) v ;;
+	h) h ;;
+	t) t ;;
+	l) l ;;
+	L) L ;;
+	r) r ;;
+	*) usage ;;
+esac

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+chara="${1:-░}"
+hinwi="$(stty size)"
+width="${hinwi##* }"
+# printf "%"$width"s\n" | sed "s/ /$chara/g"
+printf "%""$width""s\n" | sed "s/ /$chara/g"

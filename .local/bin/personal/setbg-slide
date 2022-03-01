@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# list=$(find . -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f)
+list=$(printf '%s\n' "$@")
+
+for i in one; do
+test -f "$(printf '%s\n' "$list" | sed 1q)" && break
+test -z "$(printf '%s\n' "$list" | sed 1q)" && list=$(find . -maxdepth 1 -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f) && break
+test -n "$(printf '%s\n' "$list" | sed 1q)" && ! test -f "$(printf '%s\n' "$list" | sed 1q)" &&
+	list=$(find . -maxdepth 1 -iregex '.*.\(jpg\|jpeg\|png\|gif\)' -type f) && break
+done
+
+while true; do
+	for file in $list; do
+		xwallpaper --zoom "$file" && sleep 60
+	done
+done

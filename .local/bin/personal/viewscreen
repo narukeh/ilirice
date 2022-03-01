@@ -1,0 +1,14 @@
+#!/bin/sh
+
+IP="${1:-192.168.0.19}"
+PORT="${2:-8080}"
+
+mpv \
+	--no-osc \
+	--no-input-default-bindings \
+	--input-conf=/dev/null \
+	--geometry=-0-0 \
+	--autofit=30% \
+	--title="ScreenStream" \
+	--profile=low-latency \
+	--untimed "http://${IP}:${PORT}/stream.mjpeg"

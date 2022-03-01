@@ -1,0 +1,37 @@
+!! Transparency (0-1):
+*.alpha: 0.9
+
+!! Set a default font and font size as below:
+*.font: monospace:size=14
+
+!! Autisticly Default
+*background:            #080000
+*foreground:            #c0c0c0
+*fadeColor:             #080000
+*cursorColor:           #c0c0c0
+*pointerColorBackground:#808080
+*pointerColorForeground:#c0c0c0
+/*  THE default is: first 8 dark */
+/* then 8 bright, but i switch'd them. */
+/* [beside the colors '0' and '0' */
+/* dont touch them] */
+!! Basic 8 1st
+*color0:                #000000
+*color1:                #ff0000
+*color2:                #00ff00
+*color3:                #ffff00
+*color4:                #0000ff
+*color5:                #ff00ff
+*color6:                #00ffff
+*color7:                #ffffff
+!! Basic 8 2nd
+*color8:                #808080
+*color9:                #800000
+*color10:               #008000
+*color11:               #808000
+*color12:               #000080
+*color13:               #800080
+*color14:               #008080
+*color15:               #c0c0c0
+
+# vim: filetype=xdefaults

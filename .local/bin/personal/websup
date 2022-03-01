@@ -1,0 +1,24 @@
+#!/bin/sh
+curr_path="$(du -s hekuran.gitlab.io narukeh.github.io | cut -f2)"
+path_to_be="hekuran.gitlab.io
+narukeh.github.io"
+
+[ "$path_to_be" = "$curr_path" ] ||
+	{ echo 'Move to where you have both website repos, "hekuran.gitlab.io" AND "narukeh.github.io"' && \
+		exit 1 ;}
+
+ver="$HOME/dokumente/src/web/website_version"
+count="$(cat "$ver")"
+
+gitupdate() {
+	git add -A && git commit -m "Update v.${count}" && git push origin
+}
+
+webup() {
+cp -rf hekuran.gitlab.io/public/* narukeh.github.io/
+cd narukeh.github.io
+gitupdate
+cd ..
+}
+
+webup && count=$((count+1)) && echo "$count" > "$ver"

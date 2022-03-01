@@ -1,0 +1,16 @@
+#This is because `ff
+#I made firefox "respect" xdg, be in `~/.config`
+#This has to be an ABLSOLUTE path for the file picker to work
+#run this command on user-dirs.dirs:
+#
+#sed -i "8,$ s/\$HOME/\/home\/$USER/g" "$HOME"/.config/user-dirs.dirs
+#
+XDG_DOCUMENTS_DIR="/home/nix/dokumente"
+XDG_DOWNLOAD_DIR="/home/nix/shkarkime"
+XDG_MUSIC_DIR="/home/nix/muzik"
+XDG_PICTURES_DIR="/home/nix/foto"
+XDG_VIDEOS_DIR="/home/nix/video"
+#i think order matters, if done like this
+XDG_TEMPLATES_DIR="/home/nix/temp"
+XDG_DESKTOP_DIR="/home/nix/temp/desktop"
+XDG_PUBLICSHARE_DIR="/home/nix/temp/public"

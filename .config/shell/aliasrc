@@ -1,0 +1,97 @@
+#!/bin/sh
+
+# Use neovim for vim if present.
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+
+# Use $XINITRC variable if file exists.
+[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
+
+# sudo not required for some system commands
+for command in mount umount sv pacman updatedb su shutdown poweroff reboot ; do
+	alias $command="sudo $command"
+done; unset command
+
+# Verbosity and settings that you pretty much just always are going to want.
+alias \
+	cp="cp -iv" \
+	mv="mv -iv" \
+	rm="rm -vI" \
+	bc="bc -ql" \
+	mkd="mkdir -pv" \
+	yt="youtube-dl --add-metadata -i" \
+	yta="yt -x -f bestaudio/best" \
+	ffmpeg="ffmpeg -hide_banner"
+
+# Colorize commands when possible.
+alias \
+	ls="ls -Ch --color=auto --group-directories-first" \
+	grep="grep --color=auto" \
+	diff="diff --color=auto" \
+	ccat="highlight --out-format=ansi"
+
+# These common commands are just too long! Abbreviate them.
+alias \
+	ka="killall" \
+	g="git" \
+	trem="transmission-remote" \
+	YT="youtube-viewer" \
+	sdn="shutdown -h now" \
+	e="$EDITOR" \
+	v="$EDITOR" \
+	p="pacman" \
+	xi="sudo xbps-install" \
+	xr="sudo xbps-remove -R" \
+	xq="xbps-query" \
+	z="zathura"
+
+alias \
+	magit="nvim -c MagitOnly" \
+	ref="shortcuts >/dev/null; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/shortcutrc ; source ${XDG_CONFIG_HOME:-$HOME/.config}/shell/zshnameddirrc" \
+	weath="less -S ${XDG_DATA_HOME:-$HOME/.local/share}/weatherreport" \
+	tmux="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+
+alias \
+	ytamp3="youtube-dl --add-metadata -i -x -f bestaudio/best --audio-format mp3 -o '%(playlist_index)s-%(track)s.%(ext)s'" \
+	qrn="cp -n $HOME/msim/libra/Kurani/english/text_with_ayah_no/en.haleem.txt $HOME/.cache; less $HOME/.cache/en.haleem.txt" \
+	rdshft="setsid -f redshift -l 42.663775:21.163714 -t 6500:3000" \
+	rs="rsync -Pruv" \
+	tre="trash-empty" \
+	trl="trash-list" \
+	trp="trash-put" \
+	trre="trash-restore" \
+	trrm="trash-rm" \
+	dcfpl="dcf pl" \
+	dcfp="dcf p" \
+	dcff="dcf f" \
+	dcfc="dcf c" \
+	dcfb="dcf b" \
+	dcfl="dcf l" \
+	dcfv="dcf v" \
+	dcfh="dcf h" \
+	dcft="dcf t" \
+	dcfg="dcf g" \
+	dcfr="dcf r" \
+	diffc="diff -y --suppress-common-lines" \
+	mpvcaca="unset DISPLAY && mpv --vo=caca" \
+	mpvtct="mpv --vo=tct" \
+	mpv="mpv --vo=vaapi" \
+	pkg-list="expac --timefmt='%Y-%m-%d %T' '%l\t%n'|sort -n" \
+	pactree="pactree -c" \
+	xl="clear; \ls -X1h --color=auto --group-directories-first" \
+	xla="clear; \ls -X1Ah --color=auto --group-directories-first" \
+	xls="clear; \ls -X1sh --color=auto --group-directories-first" \
+	xlas="clear; \ls -X1Ash --color=auto --group-directories-first" \
+	lc="clear; \ls -Xh --color=auto --group-directories-first" \
+	cl="clear; \ls -1h --color=auto --group-directories-first" \
+	cla="clear; \ls -1Ah --color=auto --group-directories-first" \
+	cls="clear; \ls -1sh --color=auto --group-directories-first" \
+	clas="clear; \ls -1Ash --color=auto --group-directories-first" \
+	la="\ls -lAXFh --color=auto --group-directories-first" \
+	ll="\ls -lXFh --color=auto --group-directories-first" \
+	lx="\ls -Xh --color=auto --group-directories-first" \
+	hat="highlight --out-format=ansi --style=pablo --force" \
+	tb="nc termbin.com 9999" \
+	cal="cal -m" \
+	col130="setfont /usr/share/kbd/consolefonts/ter-120n.psf.gz" \
+	col100="setfont /usr/share/kbd/consolefonts/ter-124n.psf.gz" \
+	col80="setfont /usr/share/kbd/consolefonts/ter-132n.psf.gz"

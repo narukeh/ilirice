@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# Shows the current moon phase.
+
+city="/berlin"
+state="/germany"
+website="https://www.timeanddate.com/moon"
+moondata="${XDG_CACHE_HOME:-$HOME/.cache}/moondata"
+moonfile="${XDG_DATA_HOME:-$HOME/.local/share}/moonfile"
+moonpng="${XDG_DATA_HOME:-$HOME/.local/share}/moon.png"
+
+getmoon() {
+curl -sf "${website}${state}${city}" | \
+	grep -o -m1 "<img id="cur-moon".\{900\}" | \
+		sed 's|<th>|<th>\n|g' |\
+		sed -n "1p ; 3p ; 8p"  > "$moondata" #| sed '2,3s .\{20\}  '
+
+grep -o 'New\|Waxing Crescent\|First Quarter\|Waxing Gibbous\|Full\|Waning Gibbous\|Last Quarter\|Waning Crescent' "$moondata" | \
+	grep -m1 ".*" > "$moonfile"
+grep -o "[0-9.0-9]*%" "$moondata" >> "$moonfile"
+printf "%s %s\n" $(grep -o "direction.\{10\}" "$moondata" | sed 's/direction // ; s|">.*||') \
+	$(grep -o "[0-9]*°" "$moondata") >> "$moonfile"
+grep -o "[[:digit:]]""[[:digit:]]":"[[:digit:]]""[[:digit:]]" "$moondata" >> "$moonfile"
+
+# Get Picture/Icon
+curl -sf "${website%/*}$(grep -o "/scripts/moon.php.*r=.\\...." ${moondata})" > "$moonpng"
+}
+
+[ "$(stat -c %y "$moondata" 2>/dev/null | cut -d':' -f1)" = "$(date '+%Y-%m-%d %H')" ] ||
+	{ getmoon || exit 1 ;}
+
+mnphs="$(sed -n 1p "$moonfile")"
+
+case "$mnphs" in
+	"New")			icon="🌑" ;;
+	"Waxing Crescent")	icon="🌒" ;;
+	"First Quarter")	icon="🌓" ;;
+	"Waxing Gibbous")	icon="🌔" ;;
+	"Full")			icon="🌕" ;;
+	"Waning Gibbous")	icon="🌖" ;;
+	"Last Quarter")		icon="🌗" ;;
+	"Waning Crescent")	icon="🌘" ;;
+	*) exit 1 ;;
+esac
+
+case $BLOCK_BUTTON in
+	3) notify-send -i "$moonpng" "$(cat "$moonfile")" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+printf "%s%s\n" "$icon" "$( sed -n 2p "$moonfile" )"

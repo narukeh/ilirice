@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Notify me with notify-send if my battery is below $prct.
+# You can set this to run via cron.
+status="$(cat /sys/class/power_supply/BAT0/status)"
+test "$status" = 'Charging' && exit 0
+
+# DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/$(id -u "$USER")/bus; export DISPLAY=:0;
+# export DBUS_SESSION_BUS_ADDRESS
+
+capacity="$(cat /sys/class/power_supply/BAT0/capacity)"
+prct=36
+slp=57
+
+test "$capacity" -le "$prct" && \
+	{ notify-send -u critical "     ❗❗LOW Battery❗❗" " ❗HIBERNATING In $slp Seconds❗" || true ;} && \
+		sleep "$slp" && \
+			test "$capacity" -le "$prct" && \
+				! test status = 'Charging' && \
+					sudo systemctl hibernate

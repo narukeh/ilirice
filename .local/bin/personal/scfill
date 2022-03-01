@@ -1,0 +1,24 @@
+#!/bin/sh
+
+chara="${1:-░}"
+prmpt="$(echo "$PS1" | wc -l)"
+hinwi="$(stty size)"
+width="${hinwi##* }"
+hight="$((${hinwi%% *}-prmpt))"
+
+linebrk() {
+# printf "%"$width"s\n" | sed "s/ /$chara/g"
+printf "%""$width""s\n" | sed "s/ /$chara/g"
+}
+
+scfill() {
+count=0
+until [ "$count" -eq "$hight" ]
+do
+  linebrk
+  count=$((count+1))
+done
+printf "%"$((width-2))"s" | sed "s/ /$chara/g" &
+}
+
+scfill

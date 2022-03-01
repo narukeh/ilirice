@@ -1,0 +1,5 @@
+#!/bin/sh
+
+pidof xcompmgr && killall xcompmgr && exit 0
+! pidof xcompmgr && ! pidof picom && setsid -f picom --experimental-backends && exit 0
+pidof picom && killall picom && setsid -f xcompmgr && exit 0

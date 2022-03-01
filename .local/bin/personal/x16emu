@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd "$HOME"/.local/src/x16/x16-emulator/ || exit 1
+./x16emu -keymap en-us "$@"

@@ -1,0 +1,32 @@
+#!/bin/sh
+
+state=XK
+filerona="${XDG_DATA_HOME:-$HOME/.local/share}/cacherona"
+
+getrona() {
+curl -sf 'https://corona-stats.online?source=1&minimal=true' > "$filerona" && \
+	sed -i "$(($(wc -l < "$filerona")-8)),\$d" "$filerona" && \
+	curl -s "https://corona-stats.online/${state}/graph" | \
+		sed 's .\{34\}  ' | \
+		sed '$d' >> "$filerona" && \
+	[ $state = "XK" ] && \
+		sed -i "s/┼/┤/g ;\
+		s/┤                                                               /┤  /g ;\
+		s/┤───────────────────────────────────────────────────────────────/┼──/g" "$filerona"
+}
+
+shortrona() {
+grep "${state}" "$filerona" |
+	sed "s/\s*//g ; s/\x1b\[[0-9;]*m/\;/g" |
+	awk -F';' '{printf "😷"$10" ""💀"$14}'
+}
+
+[ "$(stat -c %y "$filerona" 2>/dev/null | cut -d' ' -f1)" != "$(date '+%Y-%m-%d')" ] &&
+	{ getrona || exit 1;}
+
+case $BLOCK_BUTTON in
+	3) notify-send "👑 Corona module" "$(shortrona)" ;;
+	6) "$TERMINAL" -e "$EDITOR" "$0" ;;
+esac
+
+printf '%s\n' "$(shortrona)"

@@ -1,0 +1,44 @@
+#!/bin/bash
+
+hinwi="$(stty size)"
+width="${hinwi##* }"
+str='GNU ' #MINIMUM 4 characters!!!
+
+while getopts ":s:h" o; do case "${o}" in
+	h) printf "Optional arguments for custom use:\\n  -s: The word that shall be used.\\n$(grep NOTE $0 | sed 1d)\\n" && exit 1 ;;
+	s) str=${OPTARG} ;;
+	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
+esac done
+
+# strw=${#str}
+# strws_4="$(printf %$((strw-4))s)"
+strws_4="$(printf %$((${#str}-4))s)"
+
+#asdf() {
+## NOTE: This will break if string is less than 4.
+## ToDo: if no $str given, use $USER.
+## This function should check if the $USER is less than 4 char long, if so add that much spaces to become 4 chars long
+#((${#USER}-4))
+#}
+
+m1=" ${strws_4}        __   "
+m2=" ${strws_4}      /^  ^\\\\ "
+m3=" $str /      \\\\"
+m4=" ${strws_4}WAS  |      |"
+m5=" ${strws_4}HERE |      |"
+m6=" ${strws_4}     | |||| |"
+m7=" ${strws_4}       ||||  "
+m8=" ${strws_4}        |||  "
+
+m1ws="$(printf "%${#m1}s" " ")"
+# m1ws="$(printf "%17s" " ")"
+
+printf "%${width}s\n" | sed "s=${m1ws}=${m1}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m2}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m3}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m4}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m5}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m6}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m7}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m8}=g"
+printf "%${width}s\n" | sed "s=${m1ws}=${m8}=g"

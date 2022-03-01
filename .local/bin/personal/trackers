@@ -1,0 +1,7 @@
+#!/bin/sh
+
+test -f /tmp/trackers.list && xclip -selection clipboard /tmp/trackers.list && exit 0
+
+curl -s 'https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_best.txt' > /tmp/trackers.list
+curl -s 'https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt' > /tmp/trackers.list
+xclip -selection clipboard /tmp/trackers.list

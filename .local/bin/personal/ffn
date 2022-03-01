@@ -1,0 +1,169 @@
+#!/bin/sh
+# Program:
+# *   rename file while removing [:punct:], replace [:upper:] with
+#     [:lower:], replace "${sep}" with '_'
+# *   while given '-d', do not rename file, only print new
+#     file name
+# *   while given '-e <arg>', file name is preprocessed by sed -e <arg>, can
+#     only be invoked once in current implementation
+# *   while given '-i', do not convert [:upper:] to [:lower:]
+# *   while run without filename, read filename from stdin, and output
+#     formatted filenmae to stdout
+# Dependency:
+# *   nil
+# Author:
+# *   Chang, Chu-Kuan <cckuan@changchukuan.name>
+
+#
+# Settings
+#
+
+# Characters which will be replaced by '_', other [:punct:] not presented here
+# will be deleted
+readonly sep='\[\]()._\-[:blank:]'
+
+#
+# Proper
+#
+
+readonly progname="$(basename "$0")"
+
+d_flag='0'
+e_flag='0'
+i_flag='0'
+e_string=''
+
+help_msg()
+{
+	cat << EOF
+Usage:
+	${progname} [-dih] [-e <command>] [file ...] - format filename
+
+Options:
+	-d		Perform a 'dry run'. Do not actually rename file.
+	-e <arg>	Preprocessed file name by sed -e <command>
+	-i              case Insensitive, do not convert [:upper:] to [:lower:]
+	-h		Show this message and exit.
+
+EOF
+}
+
+mv_file()
+{
+	file="$1"
+	dir="$(dirname "${file}")"
+	base="$(basename "${file}")"
+
+	# Return if there is error parsing file name
+	if [ -z "${file}" ] || [ -z "${dir}" ] || [ -z "${base}" ]; then
+		printf '%s: error parsing file %s\n' "${progname}" "${file}" 1>&2
+		return 1
+	fi
+
+	new_base="$(process_fname "${base}")"
+
+	if [ "${base}" = "${new_base}" ]; then
+		clean_file_cnt="$((clean_file_cnt + 1))"
+		printf '%s: %s require no rename\n' "${progname}" "${base}"
+		return 0
+	fi
+
+	case "${d_flag}" in
+	'1')
+		# While given '-d', do not rename file, only
+		# print new file name
+		printf '%s -> %s\n' "${base}" "${new_base}"
+		;;
+	*)
+		# Rename file (prompt before overwrite)
+		mv -iv "${dir}/${base}" "${dir}/${new_base}" \
+		    && success_file_cnt="$((success_file_cnt + 1))"
+		;;
+	esac
+}
+
+process_fname()
+{
+	fname="$1"
+
+	# Preprocess filename with sed
+	if [ "${e_flag}" = '1' ]; then
+		# shellcheck disable=SC2086
+		if ! fname="$(printf '%s' "${fname}" | sed "${e_string}")"; then
+			printf '%s: error executing sed %s\n' "${progname}" \
+			    "${e_string}" 1>&2
+		fi
+	fi
+
+	# Isolate extension
+	case "${fname}" in
+	*.*)
+		extension=".${fname##*.}"
+		fname="${fname%.*}"
+		;;
+	*)
+		extension=''
+		;;
+	esac
+
+	fname="$(
+		printf '%s' "${fname}" \
+		    | iconv --to-code=utf-8 \
+		    | tr "${sep}" ' ' \
+		    | tr -d '[:punct:]' \
+		    | tr -s ' ' '_' \
+		    | sed -e 's/^_//' -e 's/_$//'
+	)"
+
+	if [ "${i_flag}" = '0' ]; then
+		fname="$(printf '%s' "${fname}" | tr '[:upper:]' '[:lower:]')"
+	fi
+
+	printf '%s%s' "${fname}" "${extension}"
+}
+
+while getopts 'de:ih' opt; do
+	case "${opt}" in
+	'd')
+		d_flag='1'
+		;;
+	'e')
+		e_flag='1'
+		e_string="${OPTARG}"
+		;;
+	'i')
+		i_flag='1'
+		;;
+	'h')
+		help_msg
+		exit 0
+		;;
+	*)
+		printf '%s: invalid option\n' "${progname}" 1>&2
+		exit 1
+		;;
+	esac
+done
+shift "$((OPTIND - 1))"
+
+if [ "$#" -gt '0' ]; then # move files if file names are given
+	total_file_cnt='0'
+	success_file_cnt='0'
+	clean_file_cnt='0'
+
+	for arg; do
+		total_file_cnt="$((total_file_cnt + 1))"
+		mv_file "${arg}"
+	done
+
+	# Report status
+	printf '\n%s: renamed %d, clean %d, total %d/%d\n' "${progname}" \
+	    "${success_file_cnt}" "${clean_file_cnt}" \
+	    "$((success_file_cnt + clean_file_cnt))" "${total_file_cnt}"
+else # read file name from stdin
+	while read -r line; do
+		process_fname "${line}"
+		printf '\n'
+	done
+fi
+

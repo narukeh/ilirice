@@ -1,0 +1,19 @@
+#!/bin/sh
+
+test -f /usr/bin/firefox && ff='/usr/bin/firefox'
+test -f /usr/bin/firefox-nightly && ff='/usr/bin/firefox-nightly'
+test -f /usr/bin/firefox-developer-edition && ff='/usr/bin/firefox-developer-edition'
+
+HOME="/home/${USER}/.config" \
+XDG_CONFIG_HOME="/home/${USER}/.config" \
+XDG_DATA_HOME="/home/${USER}/.local/share" \
+XDG_CACHE_HOME="/home/${USER}/.cache" \
+XDG_DESKTOP_DIR="/home/${USER}/temp/desktop" \
+XDG_DOCUMENTS_DIR="/home/${USER}/dokumente" \
+XDG_DOWNLOAD_DIR="/home/${USER}/shkarkime" \
+XDG_MUSIC_DIR="/home/${USER}/muzik" \
+XDG_PICTURES_DIR="/home/${USER}/foto" \
+XDG_PUBLICSHARE_DIR="/home/${USER}/temp/public" \
+XDG_TEMPLATES_DIR="/home/${USER}/temp" \
+XDG_VIDEOS_DIR="/home/${USER}/video" \
+exec "$ff" "$@"

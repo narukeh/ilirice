@@ -1,0 +1,6 @@
+#!/bin/sh
+
+readable "$1" -q -l force -s 'https://hekuran.ga/cssjs/sp.css' -o ${2:-/tmp/readable.html}
+
+# { pidof "$BROWSER" >/dev/null && "$BROWSER" /tmp/readable.html ;} || setsid -f "$TERMINAL" -e lynx /tmp/readable.html
+"$BROWSER" ${2:-/tmp/readable.html}

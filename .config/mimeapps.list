@@ -1,0 +1,43 @@
+[Default Applications]
+
+# xdg-open will use these settings to determine how to open filetypes.
+# These .desktop entries can also be seen and changed in ~/.local/share/applications/
+
+text/x-shellscript=text.desktop;
+x-scheme-handler/magnet=transmission-gtk.desktop;
+application/x-bittorrent=transmission-gtk.desktop;
+x-scheme-handler/mailto=mail.desktop;
+text/plain=text.desktop;
+application/postscript=pdf.desktop;
+application/pdf=pdf.desktop;
+image/png=img.desktop;
+image/jpeg=img.desktop;
+image/gif=img.desktop;
+image/webp=img.desktop;
+application/rss+xml=rss.desktop
+video/x-matroska=video.desktop
+video/mp4=video.desktop
+x-scheme-handler/lbry=lbry.desktop
+inode/directory=file.desktop
+text/html=ff.desktop
+x-scheme-handler/http=ff.desktop
+x-scheme-handler/https=ff.desktop
+x-scheme-handler/chrome=ff.desktop
+application/x-extension-htm=ff.desktop
+application/x-extension-html=ff.desktop
+application/x-extension-shtml=ff.desktop
+application/xhtml+xml=ff.desktop
+application/x-extension-xhtml=ff.desktop
+application/x-extension-xht=ff.desktop
+
+[Added Associations]
+x-scheme-handler/http=ff.desktop;
+x-scheme-handler/https=ff.desktop;
+x-scheme-handler/chrome=ff.desktop;
+text/html=ff.desktop;
+application/x-extension-htm=ff.desktop;
+application/x-extension-html=ff.desktop;
+application/x-extension-shtml=ff.desktop;
+application/xhtml+xml=ff.desktop;
+application/x-extension-xhtml=ff.desktop;
+application/x-extension-xht=ff.desktop;

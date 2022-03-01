@@ -1,0 +1,2 @@
+#!/bin/sh
+printf "%s\n" "$(curl -s https://tinyurl.com/api-create.php\?url\="$1")"

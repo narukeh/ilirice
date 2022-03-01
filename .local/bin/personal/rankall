@@ -1,0 +1,11 @@
+#!/bin/sh
+
+yay -Sy --noconfirm --needed pacman-contrib || exit 1
+sudo su -c "rm -rf /etc/pacman.d/mirrorlist*
+curl -L archlinux.org/mirrorlist/all/https/ -o /etc/pacman.d/mirrorlist
+sed -i '/## Israel/,+2d' /etc/pacman.d/mirrorlist
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.original
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
+sed -i '/##*/d' /etc/pacman.d/mirrorlist.backup
+rankmirrors -n 10 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist"

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+while getopts ":s:h" o; do case "${o}" in
+	h) printf "Optional arguments for custom use:\\n  -s: Specify time in seconds, default is 0.5\\n  -h: Show this message\\n" && exit 1 ;;
+	s) seconds=${OPTARG} && shift 2 ;;
+	*) printf "Invalid option: -%s\\n" "$OPTARG" && exit 1 ;;
+esac done
+
+
+while true; do
+	clear
+	"$@"
+	sleep ${seconds:-0.5}
+done

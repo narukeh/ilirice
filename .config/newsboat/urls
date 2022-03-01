@@ -1,0 +1,56 @@
+#vim: filetype=conf
+"query:UNREAD:unread = \"yes\"" Queries
+"query:TECH:tags # \"core-tech\" and unread = \"yes\"" Queries
+"query:NEWS:tags # \"core-news\" and unread = \"yes\"" Queries
+"query:ENTE:tags # \"core-ente\" and unread = \"yes\"" Queries
+"query:ODYC:tags # \"odysee\" and unread = \"yes\"" Queries
+"query:BC:tags # \"bitchute\" and unread = \"yes\"" Queries
+"query:SiteMIX:tags # \"site-mix\" and unread = \"yes\"" Queries
+#
+#
+#
+#"_________________"
+" "
+"query:░░░░Luke Smith░░░:tags # \"luke\"" Queries
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC2eYFnH61tmytImy1mTYvhA" "~Luke Smith YT" "yt" "yt-tech" "core-tech" "luke"
+"https://videos.lukesmith.xyz/feeds/videos.xml?accountId=3" "~Luke Smith PeerTube" "luke"
+"https://odysee.com/$/rss/@Luke:7" "~Luke Smith Odysee" "luke" "odysee"
+"https://www.bitchute.com/feeds/rss/channel/lukesmith" "~Luke Smith BC" "bitchute" "luke"
+# "https://notrelated.libsyn.com/rss" "~Not_Related" "luke"
+"https://notrelated.xyz/rss" "~Not Related!" "luke"
+"https://lukesmith.xyz/rss.xml" "~LukeSmith.xyz" "luke"
+"https://termbin.com/h2fy" "~LukeSmith.xyz archive" "luke"
+# "https://termbin.com/g9dz" "~LukeSmith.xyz archive" "luke"
+# "https://termbin.com/8c37" "~LukeSmith.xyz archive" "luke"
+# "https://termbin.com/ker6" "~LukeSmith.xyz archive" "luke"
+#
+#
+#
+#"_________________"
+"query:░░░░░YT TECH░░░░░:tags # \"core-tech\"" Queries
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCZWadyLVO4ZnMgLrRVtS6VA" "~baby WOGUE" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCld68syR8Wi-GY_n4CaoJGA" "~Brodie Robertson" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCVls1GmFKf6WlTraIb_IaJg" "~DistroTube" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCsnGwSIHyoYN0kiINAGUKxg" "~Wolfgang's Channel" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCf93fPKwotph47H3_KDcRyg" "~Kris Occhipinti" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC7YOGHUfC1Tb6E4pudI9STA" "~Mental Outlaw" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCkf4VIqu3Acnfzuk3kRIFwA" "~gotbletu" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC0A3ldncnGQ1M_RU2Wb4L2A" "~quidsup" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCk9NvmsPBC3lTn_L9kFaylA" "~iBSD" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC_0CVCfC_3iuHqmyClu59Uw" "~ETA PRIME" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCrjKdwxaQMSV_NDywgKXVmw" "~Novaspirit Tech" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCRjSO-juFtngAeJGJRMdIZw" "~Gary Explains" "yt" "yt-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC4w1YQAJMWOz4qtxinq55LQ" "~Level1Techs" "yt" "yt-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCT7njg__VOy3n-SvXemDHvg" "~Core-A Gaming" "yt" "yt-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCE1jXbVAGJQEORz9nZqb5bQ" "~Ahoy" "yt" "yt-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC8uT9cgJorJPWu7ITLGo9Ww" "~The 8-Bit Guy" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCjFaPUcJU1vwk193mnW_w1w" "~Modern Vintage Gamer" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCLx053rWZxCiYWsBETgdKrQ" "~LGR" "yt" "yt-tech" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UC7qPftDWPw9XuExpSgfkmJQ" "~Nostalgia Nerd" "yt" "yt-tech" "core-tech"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCnbvPS_rXp4PC21PG2k1UVg" "~Gaming Historian" "yt"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCpvtp7mH0Cdq8FQUxcjDq0Q" "~My Life in Gaming" "yt"
+"https://www.youtube.com/feeds/videos.xml?channel_id=UCLEoyoOKZK0idGqSc6Pi23w" "~RetroManCave" "yt" "yt-tech"
+#
+#
+#"_________________"
+# "https://hekuran.gitlab.io/rss.xml" "site-mix"

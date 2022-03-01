@@ -1,0 +1,10 @@
+#!/bin/sh
+rm -rf	"$HOME"/dokumente/linux_tweaks/tarballs/unpacked/mangadl/.* \
+		"$HOME"/dokumente/linux_tweaks/tarballs/unpacked/mangadl/* \
+		"$HOME"/.java
+unzip -j "$HOME"/dokumente/linux_tweaks/tarballs/MangaDownloader.zip "MangaDownloader.jar" \
+	  -d "$HOME"/dokumente/linux_tweaks/tarballs/unpacked/mangadl/
+
+java -jar "$HOME"/dokumente/linux_tweaks/tarballs/unpacked/mangadl/MangaDownloader.jar >/dev/null 2>&1 &
+
+# vim: ts=4 sw=4 et:

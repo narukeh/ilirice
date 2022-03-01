@@ -1,0 +1,5 @@
+#!/bin/sh
+
+[ $# -lt 1 ] && zip="$(find *.zip | fzf)" || zip="$1"
+[ -z "$zip" ] && exit 1
+unzip -j "$zip" "$( unzip -l "$zip" | awk '{print $4}' | fzf -m )"

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+pulseaudio-equalizer disable >/dev/null 2>&1
+mpc -q pause
+kill -9 $(pidof mpdup mpc mpd) >/dev/null 2>&1
+kill -9 $(pidof mpdup mpc mpd) >/dev/null 2>&1
+setsid -f mpd >/dev/null 2>&1
+sb-music >/dev/null 2>&1 &
+sleep 0.5
+mpc -q volume 70
+
+
+##The old version
+# mpc volume 0
+# mpc toggle >/dev/null 2>&1
+# kill -9 $(pidof mpdup mpc mpd) >/dev/null 2>&1
+# kill -9 $(pidof mpdup mpc mpd) >/dev/null 2>&1
+# setsid -f mpd >/dev/null 2>&1 && music >/dev/null 2>&1
+# mpc toggle >/dev/null 2>&1
+# sleep 0.2
+# mpc volume 70

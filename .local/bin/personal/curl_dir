@@ -1,0 +1,19 @@
+#!/bin/sh
+
+for file in $(curl -s "$1" |
+                  grep href |
+                  sed 's/.*href="//' |
+                  sed 's/".*//' |
+                  grep '^[a-zA-Z].*'); do
+    curl -s -O "$1""$file"
+done
+
+# for file in $(curl -s $1 |
+#                   grep href |
+#                   sed 's/.*href="//' |
+#                   sed 's/".*//' |
+#                   grep '^[a-zA-Z].*' |
+#                   grep \\.mp4 |
+#                   sort -u); do
+#     curl -s -O "http://www.brovids.com/mp4/${file}"
+# done

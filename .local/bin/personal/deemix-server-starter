@@ -1,0 +1,6 @@
+#!/bin/sh
+
+pidof deemix-server.Appimage || setsid -f deemix-server.Appimage
+
+# firefox-developer-edition -P 4nitter --ssb "http://127.0.0.1:6595/"
+$BROWSER 'http://127.0.0.1:6595/'

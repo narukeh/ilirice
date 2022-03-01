@@ -1,0 +1,33 @@
+#!/bin/sh
+sudo echo -n || { echo 'This must be run with "sudo"' && exit 1 ;}
+{ sudo /usr/bin/pacman -Rncs --noconfirm $(/usr/bin/pacman -Qtdq) >/dev/null 2>&1 && echo 'Removed unused packages.' ;} & orphansid=$!
+sudo rm -rf /root/.cache >/dev/null 2>&1
+sudo rm -rf "$HOME"/.thumbnails >/dev/null 2>&1
+sudo rm -rf "$HOME"/.cache >/dev/null 2>&1
+sudo rm -rf "$HOME"/.icons >/dev/null 2>&1
+sudo rm -rf "$HOME"/.pki   >/dev/null 2>&1
+sudo rm -rf "$HOME"/.npm*  >/dev/null 2>&1
+sudo rm -rf "$HOME"/.yarn* >/dev/null 2>&1
+sudo rm -rf "$XDG_DATA_HOME"/sunfile >/dev/null 2>&1
+sudo rm -rf "$XDG_DATA_HOME"/moonfile >/dev/null 2>&1
+sudo rm -rf "$XDG_DATA_HOME"/moon.png >/dev/null 2>&1
+
+#sudo rm -rf /tmp/*       >/dev/null 2>&1
+sudo rm -rf /tmp/.*chromium* >/dev/null 2>&1
+for file in /tmp/* ; do
+	test ! "$file" = /tmp/mpvSockets && \
+	test ! "$file" = /tmp/mpd.fifo && \
+	test ! "$file" = /tmp/dsba && \
+	test ! "$file" = /tmp/dbus-?????????? && \
+	test ! "$file" = /tmp/ssh-???????????? && \
+	test ! "$file" = /tmp/serverauth.?????????? && \
+	sudo rm -rf "$file" >/dev/null 2>&1
+done
+
+# sudo rm -rf /var/tmp/*   >/dev/null 2>&1
+# sudo rm -rf /var/tmp/.*  >/dev/null 2>&1
+##sudo rm -rf /var/cache/pacman/pkg/*  >/dev/null 2>&1
+mkdir "$HOME"/.cache >/dev/null 2>&1
+{ kill -9 $(pidof dwmblocks) && setsid -f dwmblocks ;} || true
+[ -n "$orphansid" ] && wait "$orphansid"
+echo 'All cache cleared!' ; notify-send 'All cache cleared!'

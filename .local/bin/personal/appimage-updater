@@ -1,0 +1,24 @@
+#!/bin/sh
+
+get_deemix() {
+
+###Lecay script:
+#curl -L 'https://download.deemix.app/0:/server/linux-x86_64-latest' -o "$HOME"/.local/bin/deemix-server.Appimage
+#chmod +x "$HOME"/.local/bin/deemix-server-onefile
+#notify-send DEEMIX updated
+
+# mv -f "${HOME}/.local/bin/deemix-server.Appimage" "${HOME}/.local/bin/deemix-server.Appimage.OLD"
+aria2c -c --allow-overwrite=true -x4 'https://download.deemix.app/0:/server/linux-x86_64-latest' -d "${HOME}/.local/bin/" -o "deemix-server.Appimage" || return
+chmod 755 "${HOME}/.local/bin/deemix-server.Appimage"
+}
+
+get_retroarch() {
+# mv -f /tmp/RetroArch.7z /tmp/RetroArch.7z.OLD
+aria2c -c --allow-overwrite=true -x4 'https://buildbot.libretro.com/nightly/linux/x86_64/RetroArch.7z' -d /tmp || return
+bsdtar -C /tmp/ -xvf /tmp/RetroArch.7z RetroArch-Linux-x86_64/RetroArch-Linux-x86_64.AppImage
+mv -f /tmp/RetroArch-Linux-x86_64/RetroArch-Linux-x86_64.AppImage "${HOME}/.local/bin/retroarch.Appimage"
+chmod 755 "${HOME}/.local/bin/retroarch.Appimage"
+}
+
+get_deemix && lnbrk && echo 'UPDATED DEEMIX' && lnbrk && notify-send DEEMIX updated
+get_retroarch && lnbrk && echo 'UPDATED RETROARCH' && lnbrk && notify-send RETROARCH updated

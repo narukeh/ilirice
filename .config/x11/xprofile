@@ -1,0 +1,22 @@
+#!/bin/sh
+
+start-pulseaudio-x11; pulseaudio --kill; start-pulseaudio-x11
+pactl upload-sample /usr/share/sounds/freedesktop/stereo/bell.oga bell-window-system
+pactl load-module module-x11-bell display=$DISPLAY
+
+xrandr --dpi 96		# Set DPI. User may want to use a larger number for larger screens.
+xset b 50 25 120	# Nice beep
+xset r rate 300 50 &	# Speed xrate up
+#xrdb ${XDG_CONFIG_HOME:-$HOME/.config}/x11/xresources & xrdbpid=$!	# Uncomment to use Xresources colors/settings on startup
+{ light -N 10 && light -S 100 ;} &
+redshift -l 42.66:21.16 -t 6500:3000 >/dev/null 2>&1 &
+mpv --no-audio-display --volume=50 "$XDG_DATA_HOME"/win_XP_Startup.mp3 >/dev/null 2>&1 &
+
+autostart="setbg lxpolkit remaps-x200 mpd xcompmgr dunst unclutter /usr/lib/kdeconnectd"
+for program in $autostart; do
+	pidof -s "$program" || setsid -f "$program"
+done >/dev/null 2>&1
+
+# Ensure that xrdb has finished running before moving on to start the WM/DE.
+[ -n "$xrdbpid" ] && wait "$xrdbpid"
+# vim: ts=8 sw=8

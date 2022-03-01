@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# xinitrc runs automatically when you run startx.
+
+# There are some small but important commands that need to be run when we start
+# the graphical environment. There is a link to this file in ~/.xprofile
+# because that file is run automatically if someone uses a display manager
+# (login screen) and so they are needed there. To prevent doubling up commands,
+# I source them here with the line below.
+
+# export STATUSBAR="i3blocks" # Uncomment this line when using i3.
+
+if [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile" ]; then
+	. "${XDG_CONFIG_HOME:-$HOME/.config}/x11/xprofile"
+else
+	. "$HOME/.xprofile"
+fi
+
+
+##This might fix dbus cron notification problem
+# eval $(dbus-launch --config-file=/home/nix/.config/dbus-session.conf --sh-syntax --exit-with-session)
+# dbus-launch --exit-with-session dwm
+
+# rm -f /tmp/dbus-*
+# echo 'export DBUS_SESSION_BUS_ADDRESS='$DBUS_SESSION_BUS_ADDRESS > /tmp/dsba; echo 'export DISPLAY='$DISPLAY >> /tmp/dsba; chmod +x /tmp/dsba
+printf "DBUS_SESSION_BUS_ADDRESS='${DBUS_SESSION_BUS_ADDRESS}' " > /tmp/dsba; printf "DISPLAY='${DISPLAY}' " >> /tmp/dsba
+
+ssh-agent dwm
+# ssh-agent i3
